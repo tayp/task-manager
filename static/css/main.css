@@ -1,0 +1,15 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center; 
+}
+
+.content {
+   
+}
+
+.bordered {
+
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
