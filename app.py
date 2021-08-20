@@ -17,8 +17,8 @@ class Todo(db.Model):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
-        task_content == request.form['content']
-        new_task == Todo(content=task_content)
+        task_content = request.form['content']
+        new_task = Todo(content=task_content)
 
         try:
             db.session.add(new_task)
@@ -26,7 +26,7 @@ def index():
             return redirect('/')
 
         except:
-            return 'There was an issue loading your task!' 
+            return 'There was an issue adding your task!' 
 
     else:
         tasks = Todo.query.order_by(Todo.date_created).all()
@@ -44,13 +44,22 @@ def delete(id):
     except:
         return 'There was a problem deleting that task!'
 
-@app.route('/update/<int:id>', methods=['POST', 'GET'])
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
     task = Todo.query.get_or_404(id)
+
     if request.method == 'POST':
-        pass
+        task.content = request.form['content']
+
+        try:
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue updating your task!'
+
     else:
         return render_template('update.html', task=task)
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
